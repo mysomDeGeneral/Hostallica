@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container ">
+     {% for hall in halls %}
+    
+            <a href="{% url 'student_booking' hall.id %}">
+                <div class="sub-img">
+                    <img src="{{ hall.picture.url }}" alt="">
+                    <p class="names">{{hall.name}}</p>
+                </div>
+            </a>
+            {% endfor %}
+    
+</div>
+
+{%endblock%}
