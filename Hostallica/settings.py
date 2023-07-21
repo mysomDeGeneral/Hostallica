@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-2xf^-gt=+aa!v@(b^f9)=pyoi9hc@=w!tcw9fa((lircj_d%19
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.122']
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend'
+    'backend',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'Hostallica.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -128,3 +130,10 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'backend.Student'
+
+LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
+
+if DEBUG:
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_51NW6YmKDJaSwPv3RtYY0LrOdWMhWB2scJeS9MJ2blIiO2q7LlTcaVoypcxYIdDsP5AtIzRd4Xgc92Y5JvhCfBDIo009MZe9Bab'
+    STRIPE_SECRET_KEY = 'sk_test_51NW6YmKDJaSwPv3RaQI8iq16Jb8LWlqxzRChCazsw8puOg8NolgXdpIvzOc20kM7pP5hSQwP2pY8mFWPdL0RCgcC00DcGYU1o5'

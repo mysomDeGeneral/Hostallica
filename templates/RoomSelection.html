@@ -46,6 +46,7 @@
                 <th>Room NUmber</th>
                 <th>Capacity</th>
                 <th>Hall</th>
+                <th>Action</th>
             </tr>
         </thead>
             
@@ -56,12 +57,14 @@
                   </a>
                 <td>{{room.type}}</td>
                 <td>{{room.hall}}</td>
+                <td><a href="{% url 'student_booking_history' %}">Book</a></td>
             </tr>
             {% endfor %}
             <tr>
                 <td>4 in 1</td>
                 <td>4,500</td>
                 <td>2</td>
+                
             </tr>
             
             <tr>

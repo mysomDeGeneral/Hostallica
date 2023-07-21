@@ -7,7 +7,7 @@
 <div class="container ">
      {% for hall in halls %}
     
-            <a href="{% url 'student_booking' hall.id %}">
+            <a href="{% url 'rooms' hall.id %}">
                 <div class="sub-img">
                     <img src="{{ hall.picture.url }}" alt="">
                     <p class="names">{{hall.name}}</p>

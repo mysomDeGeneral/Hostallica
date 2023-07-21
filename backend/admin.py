@@ -4,13 +4,13 @@ from .forms import StudentCreationForm
 # Register your models here.
 
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ['room_number','type','floor','hall',]
+    list_display = ['room_number','type','price','floor','hall',]
 
 class HallAdmin(admin.ModelAdmin):
     list_display = ['name','capacity','floors',]
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ['student','room','date','start_time','end_time',]
+    list_display = ['student','room','hall','date','paid']
 
 
 

@@ -25,29 +25,32 @@ class Hall(models.Model):
 
 
 class Room(models.Model):
-    room_type = (("One in Room","One in Room"),("Two in Room","Two in Room"),("Three in Room","Three in Room"),("Four in Room","Four in Room"))
+    room_type = (("Flat","Flat"),("Four in Room","Four in Room"))
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
-    room_number = models.IntegerField()
-    type = models.CharField(choices=room_type, max_length=20, default=1)
-    floor = models.PositiveIntegerField(choices=[], blank=True)
+    room_number = models.PositiveIntegerField()
+    type = models.CharField(choices=room_type, max_length=20, default='Four in Room')
+    floor = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(default=1200)
 
     def __str__(self):
         return str(self.room_number)
     
-    def save(self, *args, **kwargs):
-        self.floor = self.hall.floors
-        super().save(*args, **kwargs)
     
 
 class Booking(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    hall = models.ForeignKey(Hall, on_delete=models.CASCADE,null=True)
     date = models.DateField(auto_now_add=True)
-    start_time = models.TimeField(null=True)
-    end_time = models.TimeField(null=True)
+    paid = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return str(self.student) + " " + str(self.room) + " " + str(self.date) + " " + str(self.start_time) + " " + str(self.end_time)
+
+
+        return str(self.student) + " " + str(self.room) + " " + str(self.date) + " " + str(self.hall)
+    
 
 
 class HallManager(models.Model):

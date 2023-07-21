@@ -8,14 +8,16 @@
         <th scope="col">room </th>
         <th scope="col">floor</th>
         <th scope="col">type</th>
+        <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
         {% for room in rooms %}
       <tr> 
-           <td> <a href="{% url 'student_booking_history' room.id %}"> {{room.room_number}}</a></td>
+           <td> <a href="#"> {{room.room_number}}</a></td>
             <td>{{room.floor}}</td>
             <td>{{room.type}}</td>
+            <td><a href="{% url 'booking' room.id %}">book</a></td>
         </tr> 
         {% endfor %}
     </tbody>
