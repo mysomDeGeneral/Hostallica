@@ -50,7 +50,7 @@ class Booking(models.Model):
         return str(self.student) + " " + str(self.room) + " " + str(self.date) + " " + str(self.start_time) + " " + str(self.end_time)
 
 
-class Manager(models.Model):
+class HallManager(models.Model):
     first_name = models.CharField(max_length=50)
     last_name= models.CharField(max_length=50)
     manager_ID = models.CharField(max_length=50)
@@ -61,4 +61,4 @@ class Manager(models.Model):
     hall = models.ForeignKey(Hall, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'Manager: {self.first_name} {self.last_name} {self.manager_contact} {self.position}'
+        return f'Hall Manager: {self.first_name} {self.last_name} {self.manager_contact} {self.position}'
