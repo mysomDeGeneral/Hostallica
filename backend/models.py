@@ -48,14 +48,5 @@ class Booking(models.Model):
 
     def __str__(self):
         return str(self.student) + " " + str(self.room) + " " + str(self.date) + " " + str(self.start_time) + " " + str(self.end_time)
-    
 
-class HallManager(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    phone = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    hall = models.ForeignKey(Hall, on_delete=models.SET_NULL, null=True)
 
-    def __str__(self):
-        return self.name
