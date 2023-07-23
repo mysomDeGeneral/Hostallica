@@ -1,26 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-   
-<table class="table table-hover">
+<div class="wrapper">
+<div >
+  <img src={{hall.picture.url}} class="img-fluid" alt="hall image">
+</div>
+
+
+<div class=container>
+<table class="table table-striped table-hover table-bordered my-5">
     <thead>
       <tr>
-        <th scope="col">room </th>
-        <th scope="col">floor</th>
-        <th scope="col">type</th>
-        <th scope="col">action</th>
+        <th scope="col">Room No </th>
+        <th scope="col">Floor</th>
+        <th scope="col">Room Type</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
         {% for room in rooms %}
       <tr> 
-           <td> <a href="#"> {{room.room_number}}</a></td>
+           <td>  {{room.room_number}}</td>
             <td>{{room.floor}}</td>
             <td>{{room.type}}</td>
-            <td><a href="{% url 'booking' room.id %}">book</a></td>
+            <td><a href="{% url 'booking' room.id %}">
+              <button type="button" class="btn btn-secondary">Book</button>
+            </a></td>
         </tr> 
         {% endfor %}
     </tbody>
     </table>
+    </div>
+  </div>
 {% endblock %}
 ```

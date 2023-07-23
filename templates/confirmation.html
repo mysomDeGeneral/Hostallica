@@ -10,7 +10,7 @@
     <span>Paid: {{booking.paid}}</span>
     {% if booking.paid == False %}
         <a href="#">Cancel Booking</a>
-         <!--<a href="{% url 'payment' %}">Pay</a> -->
+        
          <form action="{% url 'charge' %}" method="POST">
             {% csrf_token %}
             <script

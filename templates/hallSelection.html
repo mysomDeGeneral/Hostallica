@@ -4,17 +4,24 @@
 
 {% block content %}
 
-<div class="container ">
-     {% for hall in halls %}
+ 
+ <div class=" container wrapper">
+    <div class="row row-col-md-2 row-cols-xl-3 g-4" > 
+    {% for hall in halls %}
+    <div class="col mt-5 mb-5">
+ <div class="card" style="width: 18rem;">
+    <a href="{% url 'rooms' hall.id %}" class="img-text">
+    <img src="{{ hall.picture.url }}" class="card-img-top" alt="...">
     
-            <a href="{% url 'rooms' hall.id %}">
-                <div class="sub-img">
-                    <img src="{{ hall.picture.url }}" alt="">
-                    <p class="names">{{hall.name}}</p>
-                </div>
-            </a>
-            {% endfor %}
-    
+        
+            <div class="card-footer text-center text-body-secondary">
+                {{hall.name}}
+           </div> </a>
+        </div>
+  </div>
+  {% endfor %}
 </div>
+</div>
+  
 
-{%endblock%}
+{% endblock %}

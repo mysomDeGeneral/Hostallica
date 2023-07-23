@@ -13,9 +13,12 @@ urlpatterns = [
     path('manager-home/', views.hall_manager_home, name='hall_manager_home'),
     path('logout/', views.logout_user, name='logout'),
     path('confirmation/', views._confirmation, name='confirmation'),
-    #path('success/', views.success_view, name='success'),
+    path('success/', views.success_view, name='success'),
     
     path('charge/', views.charge, name='charge'),
+
+    #test url
+    path('test/', views.test, name='test'),
 
 
 ]

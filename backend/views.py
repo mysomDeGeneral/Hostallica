@@ -53,15 +53,18 @@ def _rooms(request,pk):
 
 
 def _booking(request,room_id):
-    #return render(request, 'student_booking_history.html')
-    #hall = Hall.objects.all()
     key = settings.STRIPE_PUBLISHABLE_KEY
+    bookings = Booking.objects.all()
     room = get_object_or_404(Room, id=room_id)
     hall = Hall.objects.get(name=room.hall)
     student = Student.objects.get(name=request.user.name)
-    booking = Booking.objects.create(room=room, student=student, hall=hall)
-    booking.save()
-    return render(request, 'confirmation.html', {'booking': booking, 'key': key} )
+    for item in bookings:
+        if item.student == student:
+            return render(request, 'confirmation.html')
+        else:
+            booking = Booking.objects.create(room=room, student=student, hall=hall)
+            booking.save()
+    return render(request, 'confirmation.html', {'booking': booking, 'key': key, 'bookings':bookings} )
 
 
 
@@ -93,3 +96,16 @@ def charge(request):
         return redirect('success')
     return render(request, 'confirmation.html')
 
+
+
+def success_view(request):
+    student = Student.objects.get(name=request.user.name)
+    booking = Booking.objects.get(student=student)
+    booking.paid = True
+    return render(request, 'success.html', {'booking': booking})
+
+
+
+#test view
+def test(request):
+    return render(request, 'hallSelection.html')
