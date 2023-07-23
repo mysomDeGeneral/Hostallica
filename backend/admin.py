@@ -17,7 +17,7 @@ class BookingAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     form = StudentCreationForm
     model = Student
-    list_display = ['name','username','phone','program',]
+    list_display = ['name','username','phone','room','program',]
 
 admin.site.register(HallManager)
 

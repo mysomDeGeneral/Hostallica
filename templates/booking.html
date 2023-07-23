@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/roomdetails.css' %}">
+
+<style type='text/css'>
+
+  body {
+    background-image:url({% static 'SchoolImages/MainImages/Roombooking.png' %});
+    background-size: cover;
+    height: 100%;
+    
+  }
+</style>
+{% endblock %}
+
+ 
+
+{% block content %}
+     
+<div class="wrapper my-5">
+   {% for booking in bookings %}
+{% if booking.student.name == request.user.name %}
+  <div class="blackbox">
+    <div class="upper">
+     
+        
+      <div class="card border-light mb-3" style="max-width: 18rem;">
+        
+        <div class="card-body">
+          <h5 class="card-title">Room {{booking.room.room_number}}</h5>
+          <h5 class="card-title">{{booking.hall}}</h5>
+          <h5 class="card-title">{{booking.room.type}}</h5>
+
+        </div>
+      </div>
+      {% if booking.paid == False %}
+      <div>
+      <a href="#"><button>Cancel</button></a>
+      </div>
+      <div>
+       <form action="{% url 'charge' %}" method="POST">
+          {% csrf_token %}
+          <script
+              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="{{ key }}"
+              data-amount="{{ booking.room.price }}"
+              data-name="Payment Gateway"
+              data-description="Payment Gateway"
+              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+              data-locale="auto">
+          </script>
+          </div>
+          {% else %}
+          <h3>PAID</h3>
+
+      {% endif %}
+
+  {% endif %}
+  {% endfor %}
+    </div>
+    
+
+    
+
+   <!-- {% if bookings %}
+  <div class="container">
+    <table class="table table-striped table-hover table-bordered my-5">
+      <tbody>
+        {% for booking in bookings %}
+        {% if booking.student.name == request.user.name and booking.paid %}
+        {% for student in students %}
+        {% if booking.room == student.room %}
+
+          <tr>
+            <th>Name</th>
+            <th>Room</th>
+            <th>Phone</th>
+            <th>Program</th>
+          </tr>
+                <tr>
+                  <td>{{ student.name }}</td>
+                  <td>{{ student.room }}</td>
+                  <td>{{ student.phone }}</td>
+                  <td>{{ student.program }}</td>
+                </tr>
+        {% endif %}
+        {% endfor %}
+        
+              
+    </table>
+  </div>
+  {% else %}
+  <p class="text-center text-danger">Proceed to payment</p>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+
+-->
+
+{% for booking in bookings %}
+    {% if booking.student.name == request.user.name and booking.paid %}
+      <div class="container mt-5">
+        <table class="table table-striped table-hover table-bordered my-5">
+            <tbody>
+              {% for student in booking.room.students.all %}
+
+              <tr>
+                <td>{{ booking.room }} </td>
+                <td> {{ student.phone }} </td>
+                <td> {{ student.program }} </td>
+              </tr>
+              {% endfor %}
+            
+            </tbody>
+            </table>
+            </div>
+    {% endif %}
+{% endfor %}
+
+
+    
+    </div> 
+
+{% endblock %}

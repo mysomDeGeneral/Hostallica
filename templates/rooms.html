@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 
+{% block styles%}
+<style type="text/css">
+.hall-img{
+    width: 100%;
+    height:25vh;
+    object-fit: cover;
+    object-position: center;
+}
+</style>
+
+{% endblock %}
+
 {% block content %}
 <div class="wrapper">
-<div >
-  <img src={{hall.picture.url}} class="img-fluid" alt="hall image">
+<div>
+  <img src={{hall.picture.url}} class="img-fluid hall-img" alt="hall image">
 </div>
 
 
-<div class=container>
+<div class="container">
 <table class="table table-striped table-hover table-bordered my-5">
     <thead>
       <tr>

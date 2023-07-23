@@ -13,7 +13,7 @@ urlpatterns = [
     path('manager-home/', views.hall_manager_home, name='hall_manager_home'),
     path('logout/', views.logout_user, name='logout'),
     path('confirmation/', views._confirmation, name='confirmation'),
-    path('success/', views.success_view, name='success'),
+    path('booking-details/', views._booking_details, name='booking_details'),
     
     path('charge/', views.charge, name='charge'),
 

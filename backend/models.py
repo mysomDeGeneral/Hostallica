@@ -7,7 +7,7 @@ class Student(AbstractUser):
     phone = models.CharField(max_length=100)
     program = models.CharField(max_length=100)
     picture = models.ImageField(upload_to='profile/', null=True, blank=True)
-    hall = models.ForeignKey('Hall', on_delete=models.SET_NULL, null=True)
+    #hall = models.ForeignKey('Hall', on_delete=models.SET_NULL, null=True)
     room = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

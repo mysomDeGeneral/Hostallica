@@ -7,6 +7,9 @@ import stripe
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.urls import reverse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
@@ -22,14 +25,27 @@ def index(request):
     return render(request, 'index.html')
 
 
+#@login_required
 def _login(request):
+    if request.user.is_authenticated:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+
+        if not username or not password:
+            messages.error(request, 'Please enter both username and password')
+            return render(request, 'login.html')
+        
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(request.GET.get('next', settings.LOGIN_REDIRECT_URL))
+            next_url = request.GET.get('next', settings.LOGIN_REDIRECT_URL)
+            return redirect(next_url)
+        else:
+            messages.error(request, 'Invalid username or password')
+            return render(request, 'login.html', {'username': username})
     else:
         return render(request, 'login.html')
     
@@ -45,26 +61,37 @@ def _hall(request):
     return render(request, 'hallSelection.html', {'halls': halls})
     
 
-
+@login_required
 def _rooms(request,pk):
     hall = Hall.objects.get(id=pk)
     rooms = Room.objects.filter(hall=hall)
     return render(request, 'rooms.html', {'rooms': rooms, 'hall': hall})
 
 
+@login_required
 def _booking(request,room_id):
     key = settings.STRIPE_PUBLISHABLE_KEY
     bookings = Booking.objects.all()
+    students = Student.objects.all()
     room = get_object_or_404(Room, id=room_id)
-    hall = Hall.objects.get(name=room.hall)
     student = Student.objects.get(name=request.user.name)
+    hall = Hall.objects.get(name=room.hall)
+    #variable to check if booking exists
+    booking_exists = False
+
+    #check if booking exists
     for item in bookings:
         if item.student == student:
-            return render(request, 'confirmation.html')
-        else:
-            booking = Booking.objects.create(room=room, student=student, hall=hall)
-            booking.save()
-    return render(request, 'confirmation.html', {'booking': booking, 'key': key, 'bookings':bookings} )
+            booking_exists = True
+            break
+            return render(request, 'booking.html')
+    if not booking_exists:   
+        #create booking
+        booking = Booking.objects.create(room=room, student=student, hall=hall)
+        booking.save()
+        student.room = room
+        student.save()
+    return render(request, 'booking.html', {'key': key, 'bookings':bookings,'students':students} )
 
 
 
@@ -82,30 +109,52 @@ def _confirmation(request):
 
 
 #stripe
+@login_required
 def charge(request):
-    if request.method == 'POST':
+    
         student = Student.objects.get(name=request.user.name)
         booking = Booking.objects.get(student=student)
         amount = booking.room.price
+
+        #update booking status
+        booking.paid = True
+        booking.save()
+
+        #create stripe charge
         charge = stripe.Charge.create(
             amount=amount,
             currency='usd',
             description='Payment Gateway',
             source=request.POST['stripeToken']
         )
-        return redirect('success')
-    return render(request, 'confirmation.html')
+        return redirect('booking_details')
 
 
 
-def success_view(request):
-    student = Student.objects.get(name=request.user.name)
+@login_required
+def _booking_details(request):
+    key = settings.STRIPE_PUBLISHABLE_KEY
+    #student = Student.objects.get(name=request.user.name)
+    bookings = Booking.objects.filter(student=request.user,paid=True)
+    return render(request, 'booking.html', {'bookings': bookings, 'key': key})
+
+
+    
+@login_required
+def _cancel_booking(request,name):
+    student = Student.objects.get(name=name)
     booking = Booking.objects.get(student=student)
-    booking.paid = True
-    return render(request, 'success.html', {'booking': booking})
+    booking.delete()
+    return render(request, 'booking.html')
+
+
+
 
 
 
 #test view
 def test(request):
     return render(request, 'hallSelection.html')
+
+
+
