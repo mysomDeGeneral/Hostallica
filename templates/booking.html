@@ -38,7 +38,7 @@
       </div>
       {% if booking.paid == False %}
       <div>
-      <a href="#"><button>Cancel</button></a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#cancelModal"><button>Cancel</button></a>
       </div>
       <div>
        <form action="{% url 'charge' %}" method="POST">
