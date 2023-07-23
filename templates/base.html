@@ -40,7 +40,7 @@
               <div class="navbar-nav ">
               <div class="profile">
                 <img src="{{user.picture.url}}" alt="Logo" class="d-inline-block user">
-                <a class="nav-link active" aria-current="page" href="#">{{user.username}}</a>
+                <a class="nav-link active" aria-current="page" href="#">{{user.name | capfirst }}</a>
                 </div>
                 <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-power-off mr-2" ></i>Logout</a>
                 {% else %}
