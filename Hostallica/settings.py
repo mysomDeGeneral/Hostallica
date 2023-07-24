@@ -180,9 +180,3 @@ STRIPE_SECRET_KEY = 'sk_test_51NW6YmKDJaSwPv3RaQI8iq16Jb8LWlqxzRChCazsw8puOg8Nol
 
 
 
-#cloudinary configuration
-cloudinary.config(
-    cloud_name = "hjjborpoh",
-    api_key = "249263126821139",
-    api_secret = "wNBz4HfRe8CQudub8P63DOyRWlY"
-)
