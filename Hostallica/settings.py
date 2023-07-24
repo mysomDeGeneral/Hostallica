@@ -13,9 +13,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
+#cloudinary settings
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -39,7 +46,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend',
+
+
+    #third party apps
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hjjborpoh',
+    'API_KEY': '249263126821139',
+    'API_SECRET': 'wNBz4HfRe8CQudub8P63DOyRWlY'
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,14 +151,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn", "static_root")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -152,3 +174,15 @@ LOGIN_URL = 'login'
 #stripe settings
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51NW6YmKDJaSwPv3RtYY0LrOdWMhWB2scJeS9MJ2blIiO2q7LlTcaVoypcxYIdDsP5AtIzRd4Xgc92Y5JvhCfBDIo009MZe9Bab'
 STRIPE_SECRET_KEY = 'sk_test_51NW6YmKDJaSwPv3RaQI8iq16Jb8LWlqxzRChCazsw8puOg8NolgXdpIvzOc20kM7pP5hSQwP2pY8mFWPdL0RCgcC00DcGYU1o5'
+
+
+
+
+
+
+#cloudinary configuration
+cloudinary.config(
+    cloud_name = "hjjborpoh",
+    api_key = "249263126821139",
+    api_secret = "wNBz4HfRe8CQudub8P63DOyRWlY"
+)
