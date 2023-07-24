@@ -39,16 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend',
-
-
-    #third party apps   
-    'cloudinary_storage',
-    'cloudinary',
-    'whitenoise.runserver_nostatic',
-    'storages',
-    
-    'stripe',
-    
 ]
 
 MIDDLEWARE = [
@@ -130,19 +120,6 @@ USE_TZ = True
 
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hjjborpoh',
-    'API_KEY': '249263126821139',
-    'API_SECRET': 'wNBz4HfRe8CQudub8P63DOyRWlY'
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    
-
-
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 
 
@@ -152,11 +129,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_files", "static_root")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn", "static_root")
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_files", "media_root")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 MEDIA_URL = '/media/'
 
 # Default primary key field type
