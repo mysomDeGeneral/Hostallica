@@ -7,22 +7,35 @@ footer{
 
 }
 
-.user {
+#user {
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    margin-top: 5px;
+    margin-top: 3px;
   
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
     background-size: cover;
+  }
+
+  .user{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
   }
 
   .profile{
     display: flex;
     align-items: center;
   }
+
+.profile-info{
+  display: flex;
+  align-items: center;
+}
 
   .img-text{
     text-decoration: none;

@@ -97,7 +97,7 @@ def _booking(request,room_id):
 def hall_manager_home(request):
     return render(request, 'hall_manager_home.html')
 
-
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('index')

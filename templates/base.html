@@ -38,9 +38,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
               {% if user.is_authenticated and user.username != 'admin' %}
               <div class="navbar-nav ">
+                
               <div class="profile">
-                <img src="{{user.picture.url}}" alt="Logo" class="d-inline-block user">
-                <a class="nav-link active" aria-current="page" href="#">{{user.name | capfirst }}</a>
+              <img src="{{user.picture.url}}" alt="Logo" class=" user">
+                <a class="nav-link active d-inline-block mt-2" aria-current="page" href="#">  
+                  {{user.name | capfirst }}</a>
                 </div>
                 <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-power-off mr-2" ></i>Logout</a>
               
