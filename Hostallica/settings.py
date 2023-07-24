@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import boto3
+import cloudinary 
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,6 +56,9 @@ INSTALLED_APPS = [
 
     #3rd party
     'storages',
+    'cloudinary_storage',
+
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +139,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 
+# Cloudinary stuff
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hjjborpoh',
+    'API_KEY': '249263126821139',
+    'API_SECRET': 'wNBz4HfRe8CQudub8P63DOyRWlY'
+}
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    
 
 
 
@@ -151,7 +164,7 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_files", "static_roo
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_files", "media_root")
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -166,3 +179,7 @@ LOGIN_URL = 'login'
 #stripe settings
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51NW6YmKDJaSwPv3RtYY0LrOdWMhWB2scJeS9MJ2blIiO2q7LlTcaVoypcxYIdDsP5AtIzRd4Xgc92Y5JvhCfBDIo009MZe9Bab'
 STRIPE_SECRET_KEY = 'sk_test_51NW6YmKDJaSwPv3RaQI8iq16Jb8LWlqxzRChCazsw8puOg8NolgXdpIvzOc20kM7pP5hSQwP2pY8mFWPdL0RCgcC00DcGYU1o5'
+
+
+
+
