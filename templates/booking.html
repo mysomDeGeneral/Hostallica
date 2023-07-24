@@ -35,7 +35,7 @@
           <div class="card-header d-flex justify-content-between">
             Room {{booking.room.room_number}}
             {% if booking.paid %}
-            <a href="#" class="btn btn-primary">PAID</a>
+            <a href="#" class="btn btn-success">PAID</a>
             {% else %}
             <a href="#" data-bs-toggle="modal" data-bs-target="#cancelModal" class="btn btn-danger">Cancel</a>
             {% endif %}

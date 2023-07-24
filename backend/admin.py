@@ -17,12 +17,15 @@ class BookingAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     form = StudentCreationForm
     model = Student
-    list_display = ['name','username','phone','room','program',]
+    list_display = ['name','username','phone','room','program']
+
+
+admin.site.register(Student, StudentAdmin)  
 
 admin.site.register(HallManager)
 
-custom_models = [Student,Hall, Room, Booking]
-custom_models_admin = [StudentAdmin, HallAdmin, RoomAdmin, BookingAdmin]
+custom_models = [Hall, Room, Booking]
+custom_models_admin = [HallAdmin, RoomAdmin, BookingAdmin]
 
 for model, model_admin in zip(custom_models, custom_models_admin):
     admin.site.register(model, model_admin)

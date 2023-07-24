@@ -9,6 +9,7 @@ class Student(AbstractUser):
     picture = models.ImageField(upload_to='profile/', null=True, blank=True)
     #hall = models.ForeignKey('Hall', on_delete=models.SET_NULL, null=True)
     room = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
+    password = models.CharField(max_length=100 , null=True)
 
     def __str__(self):
         return self.name

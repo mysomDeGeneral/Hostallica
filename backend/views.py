@@ -21,7 +21,6 @@ def get_range(value):
 
 
 def index(request):
-    students = Student.objects.all()
     return render(request, 'index.html')
 
 
@@ -63,7 +62,7 @@ def _hall(request):
 
 @login_required
 def _rooms(request,pk):
-    hall = Hall.objects.get(id=pk)
+    hall = get_object_or_404(Hall,id=pk)
     rooms = Room.objects.filter(hall=hall)
     return render(request, 'rooms.html', {'rooms': rooms, 'hall': hall})
 
@@ -74,8 +73,8 @@ def _booking(request,room_id):
     bookings = Booking.objects.all()
     students = Student.objects.all()
     room = get_object_or_404(Room, id=room_id)
-    student = Student.objects.get(name=request.user.name)
-    hall = Hall.objects.get(name=room.hall)
+    student = get_object_or_404(Student,name=request.user.name)
+    hall = get_object_or_404(Hall,name=room.hall)
     #variable to check if booking exists
     booking_exists = False
 
@@ -112,8 +111,8 @@ def _confirmation(request):
 @login_required
 def charge(request):
     
-        student = Student.objects.get(name=request.user.name)
-        booking = Booking.objects.get(student=student)
+        student = get_object_or_404(Student,name=request.user.name)
+        booking = get_object_or_404(Booking,student=student)
         amount = booking.room.price
 
         #update booking status
@@ -134,20 +133,20 @@ def charge(request):
 @login_required
 def _booking_details(request):
     key = settings.STRIPE_PUBLISHABLE_KEY
-    room = Room.objects.get(id=request.user.room.id)
+    room = get_object_or_404(Room,id=request.user.room.id)
     students = Student.objects.filter(room=room)
-    booking = Booking.objects.get(student=request.user.id)
+    booking = get_object_or_404(Booking,student=request.user.id)
     bookings = Booking.objects.all()
     return render(request, 'booking.html', {'booking':booking,'bookings': bookings, 'key': key, 'students': students, 'room': room})
 
 
     
 @login_required
-def _cancel_booking(request,name):
-    student = Student.objects.get(name=name)
-    booking = Booking.objects.get(student=student)
+def _cancel_booking(request):
+    booking = get_object_or_404(Booking,student=request.user.id)
+    print(booking)
     booking.delete()
-    return render(request, 'booking.html')
+    return redirect('index')
 
 
 
