@@ -98,7 +98,6 @@ tr:hover{
 .main-1{
      display: flex;
     justify-content: center; 
-    background-image: url("School Images/photo_2023-07-08_11-33-41.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }

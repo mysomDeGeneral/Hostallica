@@ -12,9 +12,20 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import boto3
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+#aws bucket
+AWS_STORAGE_BUCKET_NAME = 'hostallica'
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_DEFAEULT_ACL = 'public-read'
+
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,6 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend',
+
+
+    #3rd party
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +139,7 @@ USE_TZ = True
 
 
 
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
@@ -134,7 +149,9 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_files", "static_roo
 
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_files", "media_root")
-MEDIA_URL = 'media/'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
