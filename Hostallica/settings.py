@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'whitenoise.runserver_nostatic',
-    'storages'
+    'storages',
     
     'stripe',
     
