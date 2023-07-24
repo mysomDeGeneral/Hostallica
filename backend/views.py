@@ -84,14 +84,14 @@ def _booking(request,room_id):
         if item.student == student:
             booking_exists = True
             break
-            return render(request, 'booking.html')
+            return redirect('booking_details')
     if not booking_exists:   
         #create booking
         booking = Booking.objects.create(room=room, student=student, hall=hall)
         booking.save()
         student.room = room
         student.save()
-    return render(request, 'booking.html', {'key': key, 'bookings':bookings,'students':students} )
+    return redirect('booking_details')
 
 
 
@@ -101,7 +101,7 @@ def hall_manager_home(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('index')
 
 def _confirmation(request):
     booking = Booking.objects.all()
@@ -134,9 +134,11 @@ def charge(request):
 @login_required
 def _booking_details(request):
     key = settings.STRIPE_PUBLISHABLE_KEY
-    #student = Student.objects.get(name=request.user.name)
-    bookings = Booking.objects.filter(student=request.user,paid=True)
-    return render(request, 'booking.html', {'bookings': bookings, 'key': key})
+    room = Room.objects.get(id=request.user.room.id)
+    students = Student.objects.filter(room=room)
+    booking = Booking.objects.get(student=request.user.id)
+    bookings = Booking.objects.all()
+    return render(request, 'booking.html', {'booking':booking,'bookings': bookings, 'key': key, 'students': students, 'room': room})
 
 
     
