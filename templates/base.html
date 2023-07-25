@@ -39,7 +39,7 @@
             <a href="{% url 'index'%}" class="nav-link h4">
             <div class="navbar-brand d-flex align-items-center">
               <img src="{% static 'SchoolImages/MainImages/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-top navbar-logo">
-              <span class="ml-2 h3 mt-2">HOSTALLICA KNUST</span>
+              <span class="ml-2 h2 mt-2">HOSTALLICA KNUST</span>
             </div></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -49,13 +49,13 @@
                 {% if user.is_authenticated and user.username != 'admin' %}
                   <div class="profile d-flex align-items-center">
                     <img src="{{user.picture.url}}" alt="Profile" class="user" width="24" height="24">
-                    <a class="nav-link active d-inline-block ml-2 h3" aria-current="page" href="#">  
+                    <a class="nav-link active d-inline-block ml-2 h2" aria-current="page" href="#">  
                       {{user.name | capfirst }}</a>
                   </div>
                 <a href="#" class="nav-link h4" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-power-off mr-2"></i>Logout</a>
                 {% endif %}
-                <a href="{% url 'chat' %}" class="nav-link h4"><i class="far fa-comments mr-2 "></i>Chat</a>
-                <a href="{% url 'help'%}" class="nav-link h4"><i class="fas fa-question mr-2 "></i>Help</a>
+                <a href="{% url 'chat' %}" class="nav-link h3"><i class="far fa-comments mr-2 "></i>Chat</a>
+                <a href="{% url 'help'%}" class="nav-link h3"><i class="fas fa-question mr-2 "></i>Help</a>
               </div>
             </div>
           </div>
