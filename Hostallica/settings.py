@@ -151,19 +151,19 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn", "static_root")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"staticfiles", "static_root")
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # settings.py
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
 #static with cloudinary
 #STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "staticfiles", "media_root")
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
