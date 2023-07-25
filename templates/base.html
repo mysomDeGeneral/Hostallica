@@ -11,6 +11,14 @@
         {% block title%}
         <title>HOSTALLICA</title>
         {% endblock %}
+
+        {% block styles%}
+<style>
+  
+  </style>
+
+        {% endblock %}
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -19,8 +27,7 @@
 
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <link rel="icon"  type="image/gif/png" href="{% static 'SchoolImages/MainImages/logo.png' %}">
-        {% block styles%}
-        {% endblock %}
+
        
     </head>
     <body>
@@ -29,41 +36,35 @@
 
         <nav class="navbar navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
           <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">
-              <img src="{% static 'SchoolImages/MainImages/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-              HOSTALLICA KNUST</a>
+            <a href="{% url 'index'%}" class="nav-link h4">
+            <div class="navbar-brand d-flex align-items-center">
+              <img src="{% static 'SchoolImages/MainImages/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-top navbar-logo">
+              <span class="ml-2 h3 mt-2">HOSTALLICA KNUST</span>
+            </div></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
-    
-              
-              <div class="navbar-nav ">
+              <div class="navbar-nav d-flex align-items-center">
                 {% if user.is_authenticated and user.username != 'admin' %}
-              <div class="profile">
-              <img src="{{user.picture.url}}" alt="Logo" class=" user">
-                <a class="nav-link active d-inline-block mt-2" aria-current="page" href="#">  
-                  {{user.name | capfirst }}</a>
-                </div>
-                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-power-off mr-2" ></i>Logout</a>
+                  <div class="profile d-flex align-items-center">
+                    <img src="{{user.picture.url}}" alt="Profile" class="user" width="24" height="24">
+                    <a class="nav-link active d-inline-block ml-2 h3" aria-current="page" href="#">  
+                      {{user.name | capfirst }}</a>
+                  </div>
+                <a href="#" class="nav-link h4" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-power-off mr-2"></i>Logout</a>
                 {% endif %}
-                <a href="{% url 'chat' %}" class="nav-link"><i class="far fa-comments mr-2" ></i>Chat</a>
+                <a href="{% url 'chat' %}" class="nav-link h4"><i class="far fa-comments mr-2 "></i>Chat</a>
+                <a href="{% url 'help'%}" class="nav-link h4"><i class="fas fa-question mr-2 "></i>Help</a>
               </div>
             </div>
           </div>
         </nav>
-
+        
         {% endblock %}
     
 
-        {% if messages %}
-            {% for message in messages %}
-            <div class=" text-center alert alert-warning alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            {% endfor %}
-        {% endif %}
+        
 
 
         {% block content%}
@@ -79,7 +80,7 @@
               <!--Grid row-->
               <div class="row text-light text-center">
                 <!--Grid column-->
-                <div class="">
+                <div class=" h4">
                   <p>
                     Copyright &copy 2023 Group One. All rights reserved
                   </p>

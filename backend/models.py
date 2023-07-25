@@ -9,22 +9,28 @@ class Student(AbstractUser):
     phone = models.CharField(max_length=100)
     program = models.CharField(max_length=100)
     picture = models.ImageField(upload_to='profile/', null=True, blank=True)
-    #hall = models.ForeignKey('Hall', on_delete=models.SET_NULL, null=True)
+    #ref_no = models.CharField(max_length=100 , null=True)
     room = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
     password = models.CharField(max_length=100 , null=True)
 
     def __str__(self):
-        return self.name
-    
+        return str(self.name) +  " " + str(self.room)    
 
 class Hall(models.Model):
     name = models.CharField(max_length=100)
     capacity = models.IntegerField()
     floors = models.IntegerField()
-    picture = models.ImageField(upload_to='hall/', null=True, blank=True) 
 
     def __str__(self):
         return self.name
+    
+
+class HallImage(models.Model):
+    hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='hall/', null=True, blank=True)
+
+    def __str__(self):
+        return f"Image for {self.hall.name}"
 
 
 class Room(models.Model):
@@ -36,7 +42,7 @@ class Room(models.Model):
     price = models.PositiveIntegerField(default=1200)
 
     def __str__(self):
-        return str(self.room_number)
+        return str(self.room_number) + " " + str(self.hall)
     
     
 
@@ -49,7 +55,7 @@ class Booking(models.Model):
     
 
     def __str__(self):
-        return str(self.student) + " " + str(self.room) + " " + str(self.date) + " " + str(self.hall)
+        return str(self.student.name) + " " + str(self.room) + " " + str(self.date) + " " + str(self.room.hall)
     
 
 

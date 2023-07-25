@@ -135,16 +135,18 @@
                     for (var key in response.messages) {
                         var messageData = response.messages[key];
                         var time = messageData.date;
-                        //var avatar = messageData.avatar;
                         var content = messageData.value;
+                        var sender = messageData.student; 
+
+                        var senderClass = (sender === "{{ user.name }}") ? "right" : "left"; 
 
                         var messageElement = `
                             <li class="clearfix">
-                                <div class="message-data ">
+                                <div class="message-data ${senderClass}">
                                     <span class="message-data-time">${time}</span>
                                     <img src="" alt="avatar">
                                 </div>
-                                <div class="message ">${content}</div>
+                                <div class="message ${senderClass}">${content}</div>
                             </li>
                         `;
 
@@ -180,10 +182,9 @@
                 // Clear the input field after successful submission
                 $('#message').val('');
 
-                // Append the received message to the chat log
+               
+    
 
-
-                // Scroll to the bottom of the chat log to show the latest message
                 document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight;
             },
             error: function(xhr, errmsg, err) {

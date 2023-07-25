@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout 
-from backend.models import Student, Hall, Room, Booking, HallManager, Message
+from backend.models import Student, Hall, Room, Booking, HallManager, Message, HallImage
 from django.template.defaulttags import register
 from django.conf import settings
 import stripe
@@ -67,8 +67,9 @@ def _hall(request):
 @login_required
 def _rooms(request,pk):
     hall = get_object_or_404(Hall,id=pk)
+    images = HallImage.objects.filter(hall=hall)
     rooms = Room.objects.filter(hall=hall)
-    return render(request, 'rooms.html', {'rooms': rooms, 'hall': hall})
+    return render(request, 'rooms.html', {'rooms': rooms, 'hall': hall, 'images': images})
 
 
 @login_required
@@ -153,6 +154,9 @@ def _cancel_booking(request):
 
 
 
+def _help(request):
+    return render(request, 'help.html')
+
 
 
 
@@ -193,6 +197,7 @@ def _send(request):
 
 @login_required
 def _getMessages(request):
+    username = request.user.username
     room = get_object_or_404(Room, id=request.user.room.id)
     messages = Message.objects.filter(room=room)
-    return JsonResponse({"messages": list(messages.values())})
+    return JsonResponse({"messages": list(messages.values()), "username": username})
