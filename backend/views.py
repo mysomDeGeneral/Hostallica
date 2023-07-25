@@ -201,3 +201,14 @@ def _getMessages(request):
     room = get_object_or_404(Room, id=request.user.room.id)
     messages = Message.objects.filter(room=room)
     return JsonResponse({"messages": list(messages.values()), "username": username})
+
+
+
+
+
+def handler500(request):
+    return render(request, '500.html', status=500)
+
+
+def handler404(request):
+    return render(request, '404.html', status=404)
