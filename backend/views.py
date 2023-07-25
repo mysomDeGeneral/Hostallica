@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout 
-from backend.models import Student, Hall, Room, Booking, HallManager
+from backend.models import Student, Hall, Room, Booking, HallManager, Message
 from django.template.defaulttags import register
 from django.conf import settings
 import stripe
@@ -10,6 +10,10 @@ from django.views.generic import TemplateView, View
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+
+
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
@@ -98,7 +102,7 @@ def hall_manager_home(request):
     return render(request, 'hall_manager_home.html')
 
 @login_required
-def logout_user(request):
+def _logout_user(request):
     logout(request)
     return redirect('index')
 
@@ -109,7 +113,7 @@ def _confirmation(request):
 
 #stripe
 @login_required
-def charge(request):
+def _charge(request):
     
         student = get_object_or_404(Student,name=request.user.name)
         booking = get_object_or_404(Booking,student=student)
@@ -159,3 +163,37 @@ def test(request):
 
 
 
+
+
+@login_required
+def _chat(request):
+    student = get_object_or_404(Student,name=request.user.name)
+    room = get_object_or_404(Room, id=request.user.room.id)
+    students = Student.objects.filter(room=room)
+    return render(request, 'chatroom.html',{
+        'student': student,'room':room, 'students': students
+    })
+
+
+@login_required
+def _send(request):
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        if not message:
+            return HttpResponseBadRequest("Message cannot be empty")
+
+        student = request.user
+        room = get_object_or_404(Room, id=request.user.room.id)
+
+        new_message = Message.objects.create(value=message, student=student, room=room)
+        # Make sure this is for debugging purposes only, not necessary in the final code.
+
+        return JsonResponse({"status": "success"})
+    else:
+        return HttpResponseBadRequest("Invalid request method")
+
+@login_required
+def _getMessages(request):
+    room = get_object_or_404(Room, id=request.user.room.id)
+    messages = Message.objects.filter(room=room)
+    return JsonResponse({"messages": list(messages.values())})

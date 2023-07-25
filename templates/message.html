@@ -1,0 +1,162 @@
+<li class="clearfix">
+    <div class="message-data text-right">
+        <span class="message-data-time">10:10 AM, Today</span>
+        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+    </div>
+    <div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
+</li>   
+<li class="clearfix">
+    <div class="message-data">
+        <span class="message-data-time">10:12 AM, Today</span>
+    </div>
+    <div class="message my-message">Are we meeting today?</div>                                    
+</li>  
+
+
+
+
+
+
+
+<form id="chat-form">
+    {% csrf_token %}
+<div class="chat-message clearfix">
+    <div class="input-group mb-0">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-send"></i></span>
+        </div>
+        <input type="hidden" class="form-control" name="username" id="username" value="{{username}}">  
+        <input type="hidden" class="form-control" name="room" id="room" value="{{room}}">  
+            
+        <input type="text" class="form-control" name="message" id="message" placeholder="Enter text here...">   
+                                       
+    </div>
+</div>
+</form>
+
+
+<script type="text/javascript">
+    $(document).on('submit','#chat-form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "send" %}',
+            data:{
+                message:$('#message').val(),
+                username:$('#username').val(),
+                room:$('#room').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                action:'post'
+            },
+            success:function(json){
+                $('#message').val('');
+                $('#chat-log').append('<div class="row"><div class="col-12"><div class="card"><div class="card-body"><p class="card-text">'+json.message+'</p></div></div></div></div>');
+                document.getElementById('chat-log').scrollTop=document.getElementById('chat-log').scrollHeight;
+            },
+            error:function(xhr,errmsg,err){
+                console.log(xhr.status+':'+xhr.responseText);
+            } 
+        });
+        //document.getElementById('message').value='';
+    });
+    
+</script>
+
+
+
+
+
+
+
+
+<!--
+    new
+-->
+
+<script>
+    $(document).ready(function() {
+        setInterval(function() {
+            $.ajax({
+                type: 'GET',
+                url: '{% url "getMessages" %}',
+                success: function(response) {
+                    $('#chat-log').empty();
+                    for (var key in response.messages) {
+                        var messageData = response.messages[key];
+                        var time = messageData.time;
+                        //var avatar = messageData.avatar;
+                        var content = messageData.message;
+
+                        var messageElement = `
+                            <li class="clearfix">
+                                <div class="message-data ${messageData.sender_class}">
+                                    <span class="message-data-time">${time}</span>
+                                    <img src="{% static '${avatar}' %}" alt="avatar">
+                                </div>
+                                <div class="message ${messageData.message_class}">${content}</div>
+                            </li>
+                        `;
+
+                        $('#chat-log').append(messageElement);
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ':' + xhr.responseText);
+                }
+            });
+        }, 1000);
+    });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).on('submit', '#chat-form', function(e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        // Get form data and send it via AJAX
+        $.ajax({
+            type: 'POST',
+            url: '{% url "send" %}',
+            data: {
+                message: $('#message').val(),
+                student: $('#student').val(),
+                room: $('#room').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success: function(json) {
+                // Clear the input field after successful submission
+                $('#message').val('');
+
+
+                var time = json.messageData.time; 
+                var avatar = json.messageData.avatar; 
+                var content = json.messageData.content; 
+                var senderClass = json.messageData.sender_class; 
+                var messageClass = json.messageData.message_class; 
+            
+                var htmlContent = `
+                <li class="clearfix">
+                    <div class="message-data ${senderClass}">
+                        <span class="message-data-time">${time}</span>
+                        <img src="{% static '${avatar}' %}" alt="avatar">
+                    </div>
+                    <div class="message ${messageClass}">${content}</div>
+                </li>
+            `;
+        
+
+                // Append the received message to the chat log
+                $('#chat-log').append(htmlContent);
+
+
+                // Scroll to the bottom of the chat log to show the latest message
+                document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight;
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ':' + xhr.responseText);
+            }
+        });
+    });
+</script>

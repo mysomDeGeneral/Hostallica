@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 from cloudinary.models import CloudinaryField
+from datetime import datetime
 
 # Create your models here.
 class Student(AbstractUser):
@@ -64,3 +65,13 @@ class HallManager(models.Model):
 
     def __str__(self):
         return f'Hall Manager: {self.first_name} {self.last_name} {self.manager_contact} {self.position}'
+    
+
+class Message(models.Model):
+    value = models.CharField(max_length=1000000)
+    date = models.DateTimeField(default=datetime.now, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.value + " " + str(self.date) + " " + str(self.student) + " " + str(self.room)

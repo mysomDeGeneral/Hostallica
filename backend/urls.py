@@ -11,17 +11,25 @@ urlpatterns = [
     path('hall/<int:pk>', views._rooms, name='rooms'),
     path('booking/<int:room_id>', views._booking, name='booking'),
     path('manager-home/', views.hall_manager_home, name='hall_manager_home'),
-    path('logout/', views.logout_user, name='logout'),
+    path('logout/', views._logout_user, name='logout'),
     path('confirmation/', views._confirmation, name='confirmation'),
     path('booking-details/', views._booking_details, name='booking_details'),
     
-    path('charge/', views.charge, name='charge'),
+    path('charge/', views._charge, name='charge'),
     path('cancel/', views._cancel_booking, name='cancel'),
 
     #test url
     path('test/', views.test, name='test'),
 
 
+    #chat urls
+    path('chat/', views._chat, name='chat'),
+    
+    path('chat/send/', views._send, name='send'),  
+    path('chat/getMessages/', views._getMessages, name='getMessages')
 ]
+
+
+
 
 urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
