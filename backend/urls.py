@@ -12,7 +12,6 @@ urlpatterns = [
     path('booking/<int:room_id>', views._booking, name='booking'),
     path('manager-home/', views.hall_manager_home, name='hall_manager_home'),
     path('logout/', views._logout_user, name='logout'),
-    path('confirmation/', views._confirmation, name='confirmation'),
     path('booking-details/', views._booking_details, name='booking_details'),
     path('helpdesk/', views._help, name='help'),
     path('authenticate/',views._authenticate, name='authenticate'),

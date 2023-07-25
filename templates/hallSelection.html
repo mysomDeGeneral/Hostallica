@@ -48,7 +48,11 @@
             <div class="col1">
                 <a href="{% url 'rooms' hall.id %}">
                             <div class="sub-img">
+                                {% if hall.image %}
                                 <img src="{{ hall.image.url }}" alt="">
+                                {% else %}
+                                <img src="{{ hall.image.url }}" alt="Hall Image">
+                                {%endif%}
                                 <p class="names">{{ hall.name }}</p>
                             </div>
 

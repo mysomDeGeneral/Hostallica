@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
-
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -77,8 +77,7 @@ def _authenticate(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            next_url = request.GET.get('next', settings.LOGIN_REDIRECT_URL)
-            return redirect(next_url)
+            return redirect('index')
         else:
             messages.error(request, 'Invalid username or password')
             return render(request, 'authenticate.html', {'username': username})
@@ -108,25 +107,29 @@ def _rooms(request,pk):
 
 @login_required
 def _booking(request,room_id):
-    if request.method == 'POST':
-        student = get_object_or_404(Student,name=request.user.name)
-        existing_booking = Room.objects.filter(student=student).exists()
-        if existing_booking:
-            messages.error(request, "You have already booked a room.")
-            return redirect('booking_details')
-        else:
-            room = get_object_or_404(Room, id=room_id)
+    student = get_object_or_404(Student,name=request.user.name)
+    existing_booking = Room.objects.filter(student=student).exists()
+    if existing_booking:
+        return redirect('booking_details')
+    else:
+        room = get_object_or_404(Room, id=room_id)
+        bookings = Booking.objects.filter(room=room)
+
+        no_of_booking = 0
+
+        for booking in bookings:
+            no_of_booking +=1
+
+        if no_of_booking < 4:
             booking = Booking.objects.create(room=room, student=student, hall=room.hall)
             booking.save()
             student.room = room
             student.save()
-
-        messages.success(request, "Room booked successfully.")
-        return redirect('booking_details')
+        
+    return redirect('booking_details')
     
         
-    return render(request, 'rooms.html')
-      
+
         
     
 
@@ -140,9 +143,6 @@ def _logout_user(request):
     logout(request)
     return redirect('index')
 
-def _confirmation(request):
-    booking = Booking.objects.all()
-    return render(request, 'confirmation.html')
 
 
 #stripe
@@ -172,25 +172,26 @@ def _charge(request):
 def _booking_details(request):
     key = settings.STRIPE_PUBLISHABLE_KEY
     
+    if request.user.is_authenticated:
+        try:
+            student = get_object_or_404(Student, name=request.user.name)
+            room = get_object_or_404(Room, student=student)
+            
+        except ObjectDoesNotExist:
+                pass
+        
+        booking = Booking.objects.get(student=student)
+        students = Student.objects.filter(room=room)
+        bookings = Booking.objects.all()
+        return render(request, 'booking.html', {'booking': booking, 'bookings': bookings, 'key': key, 'students': students, 'room': room})
+      
+    else:
+        return redirect('login')
     
-    # Verify if the user has a booking and if the booking is related to the requested room
-    try:
-        room = get_object_or_404(Room, id=request.user.room.id)
-        booking = Booking.objects.get(student=request.user, room=room)
-    except Booking.DoesNotExist:
-        # Redirect to hall section page if the user does not have a booking for the requested room
-        return redirect('halls')
-    
-    students = Student.objects.filter(room=room)
-    bookings = Booking.objects.all()
-    return render(request, 'booking.html', {'booking': booking, 'bookings': bookings, 'key': key, 'students': students, 'room': room})
-
-
     
 @login_required
 def _cancel_booking(request):
     booking = get_object_or_404(Booking,student=request.user.id)
-    print(booking)
     booking.delete()
     return redirect('index')
 
@@ -212,12 +213,20 @@ def test(request):
 
 @login_required
 def _chat(request):
-    student = get_object_or_404(Student,name=request.user.name)
-    room = get_object_or_404(Room, id=request.user.room.id)
-    students = Student.objects.filter(room=room)
-    return render(request, 'chatroom.html',{
-        'student': student,'room':room, 'students': students
-    })
+    if request.user.is_authenticated:
+        if request.user == 'admin':
+            return redirect('index')
+        else:
+            student = get_object_or_404(Student,name=request.user.name)
+            if student.room:
+                room = get_object_or_404(Room, id=request.user.room.id)
+                students = Student.objects.filter(room=room)
+                return render(request, 'chatroom.html',{
+                'student': student,'room':room, 'students': students})
+            else:
+                return redirect('index')
+    else:
+        return render(request,'login.html')
 
 
 @login_required

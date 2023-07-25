@@ -29,6 +29,7 @@
 {% block content %}
 <div class="wrapper my-5">
   <div class="container">
+    {% if booking %}
     <div class="row d-flex justify-content-center">
       <div class="col-lg-4 col-sm-12">
         <div class="card mb-3">
@@ -63,6 +64,9 @@
       </div>
     </div>
   </div>
+  {%else %}
+  <p class="text-center text-danger fs-1">No booking found for user</p>
+{% endif%}
 
 
     <div class="center-text">
