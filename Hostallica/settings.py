@@ -31,9 +31,9 @@ import cloudinary.api
 SECRET_KEY = 'django-insecure-2xf^-gt=+aa!v@(b^f9)=pyoi9hc@=w!tcw9fa((lircj_d%19'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['hostallica-71b670ea65e3.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['hostallica-71b670ea65e3.herokuapp.com' ]
 
 
 # Application definition
