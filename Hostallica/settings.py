@@ -160,7 +160,7 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"staticfiles", "static_root
 #whitenoise 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-WHITENOISE_USE_FINDERS = True
+WHITENOISE_USE_FINDERS = False
 
 #static with cloudinary
 #STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
