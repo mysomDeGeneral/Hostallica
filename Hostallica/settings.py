@@ -158,7 +158,7 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"staticfiles", "static_root
 
 
 #whitenoise 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WHITENOISE_USE_FINDERS = False
 
