@@ -30,8 +30,8 @@ h1 {
     color: black;
 }
 .top{
-    background: url(mainbg.png) no-repeat top;
-    /* background-image: url(..\School Images\Main Images\knust); */
+    
+    
     display: flex;
     align-items: center;
     justify-content: center;
