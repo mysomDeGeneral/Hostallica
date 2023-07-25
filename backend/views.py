@@ -73,28 +73,27 @@ def _rooms(request,pk):
 
 @login_required
 def _booking(request,room_id):
-    key = settings.STRIPE_PUBLISHABLE_KEY
-    bookings = Booking.objects.all()
-    students = Student.objects.all()
-    room = get_object_or_404(Room, id=room_id)
-    student = get_object_or_404(Student,name=request.user.name)
-    hall = get_object_or_404(Hall,name=room.hall)
-    #variable to check if booking exists
-    booking_exists = False
-
-    #check if booking exists
-    for item in bookings:
-        if item.student == student:
-            booking_exists = True
-            break
+    if request.method == 'POST':
+        student = get_object_or_404(Student,name=request.user.name)
+        existing_booking = Room.objects.filter(student=student).exists()
+        if existing_booking:
+            messages.error(request, "You have already booked a room.")
             return redirect('booking_details')
-    if not booking_exists:   
-        #create booking
-        booking = Booking.objects.create(room=room, student=student, hall=hall)
-        booking.save()
-        student.room = room
-        student.save()
-    return redirect('booking_details')
+        else:
+            room = get_object_or_404(Room, id=room_id)
+            booking = Booking.objects.create(room=room, student=student, hall=room.hall)
+            booking.save()
+            student.room = room
+            student.save()
+
+        messages.success(request, "Room booked successfully.")
+        return redirect('booking_details')
+    
+        
+    return render(request, 'rooms.html')
+      
+        
+    
 
 
 
