@@ -21,6 +21,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def get_range(value):
     return range(1, value+1)
 
+@register.filter
+def first_image(hall, images):
+    for image in images:
+        if image.hall == hall:
+            return image
+    return None
+
 
 
 
@@ -52,6 +59,32 @@ def _login(request):
     else:
         return render(request, 'login.html')
     
+    
+
+
+def _authenticate(request):
+    if request.user.is_authenticated:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        if not username or not password:
+            messages.error(request, 'Please enter both username and password')
+            return render(request, 'authenticate')
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            next_url = request.GET.get('next', settings.LOGIN_REDIRECT_URL)
+            return redirect(next_url)
+        else:
+            messages.error(request, 'Invalid username or password')
+            return render(request, 'authenticate.html', {'username': username})
+    else:
+        return render(request, 'authenticate.html')
+    
 
 
 def student_register(request):
@@ -61,7 +94,8 @@ def student_register(request):
 def _hall(request):
     #students = Student.objects.all()
     halls = Hall.objects.all()
-    return render(request, 'hallSelection.html', {'halls': halls})
+    images = HallImage.objects.all()
+    return render(request, 'hallSelection.html', {'halls': halls, 'images':images})
     
 
 @login_required
@@ -137,11 +171,19 @@ def _charge(request):
 @login_required
 def _booking_details(request):
     key = settings.STRIPE_PUBLISHABLE_KEY
-    room = get_object_or_404(Room,id=request.user.room.id)
+    
+    
+    # Verify if the user has a booking and if the booking is related to the requested room
+    try:
+        room = get_object_or_404(Room, id=request.user.room.id)
+        booking = Booking.objects.get(student=request.user, room=room)
+    except Booking.DoesNotExist:
+        # Redirect to hall section page if the user does not have a booking for the requested room
+        return redirect('halls')
+    
     students = Student.objects.filter(room=room)
-    booking = get_object_or_404(Booking,student=request.user.id)
     bookings = Booking.objects.all()
-    return render(request, 'booking.html', {'booking':booking,'bookings': bookings, 'key': key, 'students': students, 'room': room})
+    return render(request, 'booking.html', {'booking': booking, 'bookings': bookings, 'key': key, 'students': students, 'room': room})
 
 
     

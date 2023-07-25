@@ -15,6 +15,7 @@ urlpatterns = [
     path('confirmation/', views._confirmation, name='confirmation'),
     path('booking-details/', views._booking_details, name='booking_details'),
     path('helpdesk/', views._help, name='help'),
+    path('authenticate/',views._authenticate, name='authenticate'),
     
     path('charge/', views._charge, name='charge'),
     path('cancel/', views._cancel_booking, name='cancel'),

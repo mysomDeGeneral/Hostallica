@@ -38,7 +38,7 @@
           <div class="container-fluid">
             <a href="{% url 'index'%}" class="nav-link h4">
             <div class="navbar-brand d-flex align-items-center">
-              <img src="{% static 'SchoolImages/MainImages/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-top navbar-logo">
+              <img src="{% static 'SchoolImages/MainImages/logo.png' %}" alt="Logo" width="35" height="35" class="d-inline-block align-top navbar-logo">
               <span class="ml-2 h2 mt-2">HOSTALLICA KNUST</span>
             </div></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,10 +52,21 @@
                     <a class="nav-link active d-inline-block ml-2 h2" aria-current="page" href="#">  
                       {{user.name | capfirst }}</a>
                   </div>
-                <a href="#" class="nav-link h4" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                  {% if user.room %}
+                  <a href="{% url 'chat' %}" class="nav-link h3"><i class="far fa-comments mr-2 "></i>Chat</a>
+                  {% endif %}  
                 {% endif %}
-                <a href="{% url 'chat' %}" class="nav-link h3"><i class="far fa-comments mr-2 "></i>Chat</a>
+                <a href="{% url 'index'%}" class="nav-link h3"><i class="fas fa-home mr-2 "></i>Home</a>
+                <a href="{% url 'booking_details'%}" class="nav-link h3"><i class="fas fa-calendar"></i>Booking</a>
                 <a href="{% url 'help'%}" class="nav-link h3"><i class="fas fa-question mr-2 "></i>Help</a>
+                
+                {% if user.is_authenticated%}
+                <a href="#" class="nav-link h4" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                  <i class="fas fa-power-off mr-2"></i>Logout</a>
+                  {% else %}
+                  <a href="{% url 'authenticate'%}" class="nav-link h3"><i class="fas fa-key mr-2 "></i>Login</a>
+                {% endif %}
+
               </div>
             </div>
           </div>

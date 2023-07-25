@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-2xf^-gt=+aa!v@(b^f9)=pyoi9hc@=w!tcw9fa((lircj_d%19
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['hostallica-71b670ea65e3.herokuapp.com']
+ALLOWED_HOSTS = ['hostallica-71b670ea65e3.herokuapp.com','192.168.43.122']
 
 
 # Application definition
@@ -158,7 +158,7 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"staticfiles", "static_root
 
 
 #whitenoise 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WHITENOISE_USE_FINDERS = False
 

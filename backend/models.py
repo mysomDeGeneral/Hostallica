@@ -19,6 +19,7 @@ class Student(AbstractUser):
 class Hall(models.Model):
     name = models.CharField(max_length=100)
     capacity = models.IntegerField()
+    image = models.ImageField(upload_to='hall/',null=True, blank=True)
     floors = models.IntegerField()
 
     def __str__(self):
