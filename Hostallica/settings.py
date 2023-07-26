@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['hostallica-71b670ea65e3.herokuapp.com','127.0.0.1','hostallica
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,7 +66,7 @@ CLOUDINARY_STORAGE = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #"whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -153,9 +154,9 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-#STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn", "static_root")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn", "static_root")
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static_cdn", "static")]
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, "static_cdn", "static")]
 # settings.py
 
 
