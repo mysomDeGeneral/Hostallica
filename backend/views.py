@@ -32,7 +32,15 @@ def first_image(hall, images):
 
 
 def index(request):
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        try:
+            booking = Booking.objects.get(student=request.user)
+        except:
+            pass
+    else:
+        booking = Booking.objects.all()
+    
+    return render(request, 'index.html',{'booking':booking})
 
 
 #@login_required
@@ -91,10 +99,17 @@ def student_register(request):
 
 
 def _hall(request):
-    #students = Student.objects.all()
+    if request.user.is_authenticated:
+            try:
+                booking = Booking.objects.get(student=request.user)
+            except:
+                pass
+    else:
+        booking = Booking.objects.all()
+
     halls = Hall.objects.all()
     images = HallImage.objects.all()
-    return render(request, 'hallSelection.html', {'halls': halls, 'images':images})
+    return render(request, 'hallSelection.html', {'halls': halls, 'images':images,'booking':booking})
     
 
 @login_required
@@ -103,7 +118,6 @@ def _rooms(request,pk):
     images = HallImage.objects.filter(hall=hall)
     rooms = Room.objects.filter(hall=hall)
     return render(request, 'rooms.html', {'rooms': rooms, 'hall': hall, 'images': images})
-
 
 @login_required
 def _booking(request,room_id):
