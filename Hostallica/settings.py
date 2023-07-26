@@ -65,13 +65,15 @@ CLOUDINARY_STORAGE = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    #"whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddlea'
 ]
 
 ROOT_URLCONF = 'Hostallica.urls'
@@ -150,10 +152,10 @@ USE_TZ = True
 
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"staticfiles", "static_root")
+STATIC_URL = 'static/'
+#STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static_cdn", "static_root")
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles", "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static_cdn", "static")]
 # settings.py
 
 
@@ -173,7 +175,7 @@ WHITENOISE_USE_FINDERS = True
 #STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "staticfiles", "media_root")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
