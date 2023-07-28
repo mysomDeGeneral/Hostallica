@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User, AbstractBaseUser,  BaseUserManager, PermissionsMixin
 from cloudinary.models import CloudinaryField
@@ -8,7 +9,7 @@ from django.dispatch import receiver
 
 
 def get_default_image():
-    return ''
+    return 'profile/default.png'
 
 
 class StudentManager(BaseUserManager):
@@ -21,10 +22,10 @@ class StudentManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username,name, password=None, **extra_fields):
+    def create_superuser(self, username, password=None, **extra_fields):
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_superuser', True)
-        user = self.create_user(username, name, password=password, **extra_fields)
+        user = self.create_user(username, password=password, **extra_fields)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -72,7 +73,7 @@ class Student(AbstractBaseUser, PermissionsMixin):
 
 
 class Hall(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     capacity = models.IntegerField()
     image = models.ImageField(upload_to='hall/image/',null=True, blank=True)
 
@@ -142,9 +143,9 @@ class Message(models.Model):
 
     @staticmethod
     def delete_expired_messages():
-        Message.objects.filter(date__lt=timezone.now() - timedelta(days=1)).delete()
+        Message.objects.filter(date__lt=timezone.now() - timedelta(minutes=2)).delete()
 
 def delete_expired_messages(sender,instance,**kwargs):
-    Message.objects.filter(date__lt=timezone.now() - timedelta(days=1)).delete()
+    Message.objects.filter(date__lt=timezone.now() - timedelta(minutes=1)).delete()
 
 pre_save.connect(delete_expired_messages, sender=Message)
