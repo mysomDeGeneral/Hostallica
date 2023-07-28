@@ -46,7 +46,7 @@ class Student(AbstractBaseUser, PermissionsMixin):
     objects = StudentManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.username + " " + self.name
