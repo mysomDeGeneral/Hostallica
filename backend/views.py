@@ -31,16 +31,22 @@ def first_image(hall, images):
 
 
 
+
+
 def index(request):
+    booking = None
+
     if request.user.is_authenticated:
-        try:
-            booking = Booking.objects.get(student=request.user)
-        except:
-            pass
-    else:
-        booking = Booking.objects.all()
-    
-    return render(request, 'index.html',{'booking':booking})
+        if request.user.room:
+            try:
+                booking = Booking.objects.get(student=request.user)
+            except Booking.DoesNotExist:
+                pass
+
+    # all_bookings = Booking.objects.all()
+
+    return render(request, 'index.html', {'booking': booking})
+
 
 
 #@login_required
@@ -99,17 +105,18 @@ def student_register(request):
 
 
 def _hall(request):
+    halls = Hall.objects.all()
+    #images = HallImage.objects.all()
+    booking = None
     if request.user.is_authenticated:
             try:
                 booking = Booking.objects.get(student=request.user)
-            except:
+            except ObjectDoesNotExist:
                 pass
-    else:
-        booking = Booking.objects.all()
+    
 
-    halls = Hall.objects.all()
-    images = HallImage.objects.all()
-    return render(request, 'hallSelection.html', {'halls': halls, 'images':images,'booking':booking})
+    
+    return render(request, 'hallSelection.html', {'halls': halls, 'booking':booking})
     
 
 @login_required
@@ -127,26 +134,17 @@ def _booking(request,room_id):
         return redirect('booking_details')
     else:
         room = get_object_or_404(Room, id=room_id)
-        bookings = Booking.objects.filter(room=room)
+        booking = Booking.objects.create(room=room, student=student, hall=room.hall)
+        booking.save()
+        student.room = room
+        room.occupants += 1
+        student.save()
+        room.save()
 
-        no_of_booking = 0
-
-        for booking in bookings:
-            no_of_booking +=1
-
-        if no_of_booking < 4:
-            booking = Booking.objects.create(room=room, student=student, hall=room.hall)
-            booking.save()
-            student.room = room
-            student.save()
-        
     return redirect('booking_details')
-    
-        
 
         
     
-
 
 
 def hall_manager_home(request):
@@ -188,24 +186,34 @@ def _booking_details(request):
     
     if request.user.is_authenticated:
         try:
-            student = get_object_or_404(Student, name=request.user.name)
-            room = get_object_or_404(Room, student=student)
-            
+            student = Student.objects.get(name=request.user.name)
+            room = Room.objects.get(student=student)
+            booking = Booking.objects.get(student=student)
+            students = Student.objects.filter(room=room)
+            bookings = Booking.objects.all()
+
+            if room is None or students is None:
+                return render(request, 'bookingDetails.html')
+            else:
+                return render(request, 'bookingDetails.html', {'booking': booking, 'bookings': bookings, 'key': key, 'students': students, 'room': room})
+
         except ObjectDoesNotExist:
-                pass
-        
-        booking = Booking.objects.get(student=student)
-        students = Student.objects.filter(room=room)
-        bookings = Booking.objects.all()
-        return render(request, 'booking.html', {'booking': booking, 'bookings': bookings, 'key': key, 'students': students, 'room': room})
-      
+            return render(request, 'bookingDetails.html')
+ 
     else:
         return redirect('login')
+    
+
+
+
+
     
     
 @login_required
 def _cancel_booking(request):
     booking = get_object_or_404(Booking,student=request.user.id)
+    booking.room.occupants -= 1
+    booking.room.save()
     booking.delete()
     return redirect('index')
 
@@ -231,12 +239,12 @@ def _chat(request):
         if request.user == 'admin':
             return redirect('index')
         else:
-            student = get_object_or_404(Student,name=request.user.name)
-            if student.room:
+            user = get_object_or_404(Student,name=request.user.name)
+            if user.room:
                 room = get_object_or_404(Room, id=request.user.room.id)
                 students = Student.objects.filter(room=room)
                 return render(request, 'chatroom.html',{
-                'student': student,'room':room, 'students': students})
+                'user': user,'room':room, 'students': students})
             else:
                 return redirect('index')
     else:

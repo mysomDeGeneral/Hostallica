@@ -13,17 +13,17 @@
     
     }
 
-    body::before {
+    {% comment %} body::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 160vh;
-        background-color: rgba(0, 0, 0, 0.7); /* Adjust the alpha value to control the opacity */
+        background-color: rgba(0, 0, 0, 0.7);
         z-index: -1;
       }
-    
+     {% endcomment %}
 
     
 </style>
@@ -51,9 +51,9 @@
                                 {% if hall.image %}
                                 <img src="{{ hall.image.url }}" alt="">
                                 {% else %}
-                                <img src="{{ hall.image.url }}" alt="Hall Image">
+                                <img src="#" alt="Hall Image">
                                 {%endif%}
-                                <p class="names">{{ hall.name }}</p>
+                                <p class="names text-align-right">{{ hall.name }}</p>
                             </div>
 
                 </a>

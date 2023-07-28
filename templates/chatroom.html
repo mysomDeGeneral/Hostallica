@@ -13,19 +13,18 @@
             font: 0/0 a;         /* remove the gap between inline(-block) elements */
           }
           
-          .vertical-center:before {    /* create a full-height inline block pseudo=element */
-            content: " ";
+          .vertical-center:before {   
             display: inline-block;
-            vertical-align: middle;    /* vertical alignment of the inline element */
+            vertical-align: middle; 
             height: 100%;
           }
           
-          .vertical-center > .container {
+          .vertical-center  .container {
             max-width: 100%;
           
             display: inline-block;
-            vertical-align: middle;  /* vertical alignment of the inline element */
-                                     /* reset the font property */
+            vertical-align: middle; 
+                                     
             font: 16px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
           }
 
@@ -51,13 +50,20 @@
                 </div>
                 <ul class="list-unstyled chat-list mt-2 mb-0">
                    {% comment %}  {% endcomment %}
+                   {% for student in students %}
                     <li class="clearfix">
+                        {% if student.picture %}
                         <img src="{{student.picture.url}}" alt="avatar">
+                        {% else %}
+                        <img src="{% static 'SchoolImages/MainImages/profile.png' %}" alt="Avatar" >
+
+                        {% endif%}
                             <div class="name">{{student.name}}</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i></div>                                            
+                            {% comment %} <div class="status"> <i class="fa fa-circle offline"></i></div>                                             {% endcomment %}
                         </div>
                         {% comment %} {% endfor %} {% endcomment %}
                     </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="chat">
@@ -139,7 +145,7 @@
                             <li class="clearfix">
                                 <div class="message-data ${senderClass}">
                                     <span class="message-data-time">${time}</span>
-                                    <img src="" alt="avatar">
+                                    <img src="{{user.picture.url}}" alt="avatar">
                                 </div>
                                 <div class="message ${senderClass}">${content}</div>
                             </li>

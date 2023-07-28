@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block styles %}
+<link href="{% static 'css/help.css' %}" rel="stylesheet" type="text/css">
 <style type="text/css">
   body {
     background-image: url({% static 'SchoolImages/MainImages/Roombooking.png' %});
@@ -12,58 +13,6 @@
     height: 100%;
   }
 
-  body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Adjust the alpha value to control the opacity */
-    z-index: -1;
-  }
-
-  .help-container {
-    padding: 20px;
-  }
-
-  .help-title {
-    text-align: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-
-  .help-text {
-    color: white;
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-
-  .help-details {
-    margin-top: 30px;
-    border-top: 1px solid white;
-    padding-top: 20px;
-  }
-
-  .help-details-title {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-
-  .help-details-text {
-    color: white;
-    font-size: 16px;
-  }
-
-  .translucent-container {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-  }
 </style>
 
 {% endblock %}

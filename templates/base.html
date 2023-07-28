@@ -51,24 +51,24 @@
                     {% if user.picture %}
                     <img src="{{user.picture.url}}" alt="Profile" class="user" width="24" height="24">
                     {% else%}
-                    <img src="{% static 'SchoolImages/MainImages/logo.png' %}" alt="Profile" class="user" width="24" height="24">
+                    <img src="{% static 'SchoolImages/MainImages/profile.png' %}" alt="Profile" class="user" width="24" height="24">
                     {%endif%}
                     <a class="nav-link active d-inline-block ml-2 h2" aria-current="page" href="#">  
                       {{user.name | capfirst }}</a>
                   </div>
                   {% if user.room and booking.paid %}
-                  <a href="{% url 'chat' %}" class="nav-link h3"><i class="far fa-comments mr-2 "></i>Chat</a>
+                  <a href="{% url 'chat' %}" class="nav-link h3"><i class="far fa-comments mr-2 "></i> Chat</a>
                   {% endif %}  
                 {% endif %}
-                <a href="{% url 'index'%}" class="nav-link h3"><i class="fas fa-home mr-2 "></i>Home</a>
-                <a href="{% url 'booking_details'%}" class="nav-link h3"><i class="fas fa-calendar"></i>Booking</a>
-                <a href="{% url 'help'%}" class="nav-link h3"><i class="fas fa-question mr-2 "></i>Help</a>
+                <a href="{% url 'index'%}" class="nav-link h3"><i class="fas fa-home mr-2 "></i> Home</a>
+                <a href="{% url 'halls'%}" class="nav-link h3"><i class="fas fa-calendar"></i> Booking</a>
+                <a href="{% url 'help'%}" class="nav-link h3"><i class="fas fa-question mr-2 "></i> Help</a>
                 
                 {% if user.is_authenticated%}
                 <a href="#" class="nav-link h4" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                  <i class="fas fa-power-off mr-2"></i>Logout</a>
+                  <i class="fas fa-power-off mr-2"></i> Logout</a>
                   {% else %}
-                  <a href="{% url 'authenticate'%}" class="nav-link h3"><i class="fas fa-key mr-2 "></i>Login</a>
+                  <a href="{% url 'authenticate'%}" class="nav-link h3"><i class="fas fa-key mr-2 "></i> Login</a>
                 {% endif %}
 
               </div>
@@ -83,7 +83,8 @@
 
 
         {% block content%}
-
+        <div class="wrapper">
+        </div>
 
         {% endblock %}
 
@@ -91,7 +92,7 @@
         
         <footer class="bg-dark text-center text-lg-start">
             <!-- Grid container -->
-            <div class="container p-4">
+            <div class= "p-4">
               <!--Grid row-->
               <div class="row text-light text-center">
                 <!--Grid column-->
@@ -106,12 +107,6 @@
                 
           </footer>
 
-
-
-
-
-
-       
         {% endblock %}
           <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>

@@ -13,7 +13,7 @@
     flex-direction: column;
   }
 
-  .wrapper {
+  {% comment %} .wrapper {
     flex: 1;
   }
 
@@ -22,13 +22,13 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-  }
+  } {% endcomment %}
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="wrapper my-5">
-  <div class="container">
+<div class="container">
+  
     {% if booking %}
     <div class="row d-flex justify-content-center">
       <div class="col-lg-4 col-sm-12">
@@ -63,12 +63,16 @@
         </div>
       </div>
     </div>
-  </div>
-  {%else %}
-  <p class="text-center text-danger fs-1">No booking found for user</p>
-{% endif%}
+    </div>
+    {%else %}
+    <div>
+   <p class="text-center text-danger fs-1">No booking found for user</p>
+   </div>
+    {% endif%}
 
 
+
+    {% if booking %}
     <div class="center-text">
       {% if booking.paid %}
       <div class="container">
@@ -93,7 +97,8 @@
       <p class="text-center text-danger fs-1">Pending payment</p>
       {% endif %}
     </div>
-
+    {% endif %}
+    
 
 </div>
 

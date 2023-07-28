@@ -4,6 +4,7 @@ footer{
     bottom: 0;
     left: 0;
     text-align: center;
+    padding: 20px;
 
 }
 
@@ -12,7 +13,7 @@ footer{
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    margin-top: 3px;
+    margin-top: 1px;
   
     background-repeat: no-repeat;
     background-position: center;
@@ -24,7 +25,7 @@ footer{
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   .profile{
@@ -37,8 +38,14 @@ footer{
   align-items: center;
 }
 
+.profile a{
+  margin-top: 5px;
+  font-weight: bold;
+}
+
   .img-text{
     text-decoration: none;
+    
     
   }
 
@@ -50,9 +57,11 @@ footer{
 
 
   body{
-    display:grid;
+    display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
+    margin: 0;
+
   }
 
   .wrapper{
