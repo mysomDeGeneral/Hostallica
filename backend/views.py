@@ -137,8 +137,8 @@ def _booking(request,room_id):
         booking = Booking.objects.create(room=room, student=student, hall=room.hall)
         booking.save()
         student.room = room
-        room.occupants += 1
         student.save()
+        room.occupants += 1
         room.save()
 
     return redirect('booking_details')
