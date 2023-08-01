@@ -41,7 +41,7 @@
  <div class=" container">
 
 
-    {% if halls%}
+
     <div class="row row-cols-md-2 row-cols-xl-3 g-4">
         {% for hall in halls %}
         <div class="col-lg-4 col-sm-12 col-md-6">
@@ -61,15 +61,6 @@
         </div>
         {% endfor %}
     </div>
-        {% else%}
-        <div class="container" style="min-height: 100%; display: flex; flex-direction: column;">
-            <div class="row justify-content-center align-items-center flex-grow-1">
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <p class="text-center text-white fs-1 bg-dark bg-opacity-50">No Halls available</p>
-                </div>
-            </div>
-          </div>
-        {% endif %}
     
       
 
