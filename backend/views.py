@@ -50,6 +50,32 @@ def index(request):
 
 
 #@login_required
+def _authenticate(request):
+    if request.user.is_authenticated:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        if not username or not password:
+            messages.error(request, 'Please enter both username and password')
+            return render(request, 'authenticate.html')
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+           
+        else:
+            messages.error(request, 'Invalid username or password')
+            return render(request, 'authenticate.html', {'username': username})
+    else:
+        return render(request, 'authenticate.html')
+    
+    
+
+
 def _login(request):
     if request.user.is_authenticated:
         return redirect(settings.LOGIN_REDIRECT_URL)
@@ -67,36 +93,12 @@ def _login(request):
             login(request, user)
             next_url = request.GET.get('next', settings.LOGIN_REDIRECT_URL)
             return redirect(next_url)
+            
         else:
             messages.error(request, 'Invalid username or password')
             return render(request, 'login.html', {'username': username})
     else:
         return render(request, 'login.html')
-    
-    
-
-
-def _authenticate(request):
-    if request.user.is_authenticated:
-        return redirect(settings.LOGIN_REDIRECT_URL)
-    
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        if not username or not password:
-            messages.error(request, 'Please enter both username and password')
-            return render(request, 'authenticate')
-        
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        else:
-            messages.error(request, 'Invalid username or password')
-            return render(request, 'authenticate.html', {'username': username})
-    else:
-        return render(request, 'authenticate.html')
     
 
 
@@ -248,7 +250,7 @@ def _chat(request):
             else:
                 return redirect('index')
     else:
-        return render(request,'login.html')
+        return redirect('login')
 
 
 @login_required
@@ -262,7 +264,7 @@ def _send(request):
         room = get_object_or_404(Room, id=request.user.room.id)
 
         new_message = Message.objects.create(value=message, student=student, room=room)
-        # Make sure this is for debugging purposes only, not necessary in the final code.
+        new_message.save()
 
         return JsonResponse({"status": "success"})
     else:

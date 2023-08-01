@@ -50,7 +50,7 @@ class Student(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
-        return self.username + " " + self.name
+        return self.username
 
 
 

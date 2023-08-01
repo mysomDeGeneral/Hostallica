@@ -8,6 +8,7 @@ dj-database-url==2.0.0
 Django==3.2
 django-cloudinary-storage==0.3.0
 django-cron==0.6.0
+django-environ==0.10.0
 django-storages==1.13.2
 djangorestframework==3.14.0
 gunicorn==21.2.0
@@ -15,7 +16,7 @@ idna==3.4
 jmespath==1.0.1
 packaging==23.1
 Pillow==10.0.0
-psycopg2
+psycopg2==2.9.6
 python-dateutil==2.8.2
 pytz==2023.3
 requests==2.31.0
